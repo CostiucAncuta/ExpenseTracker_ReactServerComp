@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import { supabase } from "../utils/supabase";
 
 // Server Action for adding expenses
 async function addExpense(formData: FormData) {
@@ -8,8 +9,17 @@ async function addExpense(formData: FormData) {
   const description = formData.get("description");
   const date = formData.get("date");
 
-  // Here you would typically save to your database
-  console.log("Saving expense:", { amount, description, date });
+  const { error } = await supabase.from("expenses").insert([
+    {
+      amount: parseFloat(amount as string),
+      description,
+      date,
+    },
+  ]);
+  if (error) {
+    console.error("Error adding expense:", error);
+    throw new Error("Failed to add expense");
+  }
 
   // Revalidate the expenses page to show the new expense
   revalidatePath("/");
@@ -29,6 +39,8 @@ export default function AddExpense() {
             type="number"
             id="amount"
             name="amount"
+            step="0.01"
+            min="0"
             className="w-full p-2 border rounded"
             required
           />
