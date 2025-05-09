@@ -1,36 +1,23 @@
-import { revalidatePath } from "next/cache";
-import { supabase } from "../utils/supabase";
+"use client";
 
-// Server Action for adding expenses
-async function addExpense(formData: FormData) {
-  "use server";
-
-  const amount = formData.get("amount");
-  const description = formData.get("description");
-  const date = formData.get("date");
-
-  const { error } = await supabase.from("expenses").insert([
-    {
-      amount: parseFloat(amount as string),
-      description,
-      date,
-    },
-  ]);
-  if (error) {
-    console.error("Error adding expense:", error);
-    throw new Error("Failed to add expense");
-  }
-
-  // Revalidate the expenses page to show the new expense
-  revalidatePath("/");
-}
+import { useRouter } from "next/navigation";
+import { addExpense } from "../actions";
 
 export default function AddExpense() {
+  const router = useRouter();
+
+  async function handleSubmit(formData: FormData) {
+    const result = await addExpense(formData);
+    if (result.success) {
+      router.push("/");
+    }
+  }
+
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Add New Expense</h1>
 
-      <form action={addExpense} className="max-w-md space-y-4">
+      <form action={handleSubmit} className="max-w-md space-y-4">
         <div>
           <label htmlFor="amount" className="block mb-2">
             Amount
