@@ -3,6 +3,15 @@
 import { useRouter } from "next/navigation";
 import { addExpense } from "../actions";
 
+const categories = [
+  "Food",
+  "Transport",
+  "Entertainment",
+  "Shopping",
+  "Bills",
+  "Other",
+];
+
 export default function AddExpense() {
   const router = useRouter();
 
@@ -28,22 +37,47 @@ export default function AddExpense() {
             name="amount"
             step="0.01"
             min="0"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-white rounded bg-[#0a0a0a] text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block mb-2">
+          <label htmlFor="description" className="block mb-2 ">
             Description
           </label>
           <input
             type="text"
             id="description"
             name="description"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-white rounded bg-[#0a0a0a] text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]"
             required
           />
+        </div>
+
+        <div>
+          <label htmlFor="category" className="block mb-2">
+            Category
+          </label>
+          <select
+            id="category"
+            name="category"
+            className="w-full p-2 border rounded bg-[#0a0a0a] text-white hover:bg-[#1a1a1a] focus:bg-[#1a1a1a]"
+            required
+          >
+            <option value="" className="bg-[#0a0a0a] text-white">
+              Select a category
+            </option>
+            {categories.map((category) => (
+              <option
+                key={category}
+                value={category}
+                className="bg-[#0a0a0a] text-white"
+              >
+                {category}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

@@ -8,12 +8,14 @@ export async function addExpense(formData: FormData) {
     const amount = formData.get("amount");
     const description = formData.get("description");
     const date = formData.get("date");
+    const category = formData.get("category");
 
     const { error } = await supabase.from("expenses").insert([
       {
         amount: parseFloat(amount as string),
         description,
         date,
+        category,
         user_id: "anonymous",
       },
     ]);
