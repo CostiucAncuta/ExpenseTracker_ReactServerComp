@@ -38,7 +38,7 @@ async function ExpenseList() {
             Total Expenses
           </h2>
           <p className="text-2xl font-bold text-green-600">
-            ${totalExpenses.toFixed(2)}
+            €{totalExpenses.toFixed(2)}
           </p>
         </div>
         <div>
@@ -46,12 +46,14 @@ async function ExpenseList() {
             Category Breakdown
           </h2>
           <div className="space-y-1">
-            {Object.entries(categoryTotals).map(([category, amount]) => (
-              <div key={category} className="flex justify-between">
-                <span className="capitalize">{category}</span>
-                <span className="text-green-600">${amount.toFixed(2)}</span>
-              </div>
-            ))}
+            {Object.entries(categoryTotals as Record<string, number>).map(
+              ([category, amount]: [string, number]) => (
+                <div key={category} className="flex justify-between">
+                  <span className="capitalize">{category}</span>
+                  <span className="text-green-600">€{amount.toFixed(2)}</span>
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>
@@ -63,7 +65,7 @@ async function ExpenseList() {
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-bold text-lg text-green-600">
-                  ${expense.amount}
+                  €{expense.amount}
                 </p>
                 <p className="text-gray-700">{expense.description}</p>
                 {expense.category && (
