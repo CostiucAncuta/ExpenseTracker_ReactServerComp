@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "./components/ui/button";
 import { Subtitle, Title } from "./components/typography";
 import { supabase } from "./utils/supabase";
+import formatCurrency from "../formatcurrency";
 
 // This is a Server Component
 async function ExpenseList() {
@@ -38,7 +39,7 @@ async function ExpenseList() {
             Total Expenses
           </h2>
           <p className="text-2xl font-bold text-green-600">
-            €{totalExpenses.toFixed(2)}
+            {formatCurrency(totalExpenses)}
           </p>
         </div>
         <div>
@@ -50,7 +51,9 @@ async function ExpenseList() {
               ([category, amount]: [string, number]) => (
                 <div key={category} className="flex justify-between">
                   <span className="capitalize">{category}</span>
-                  <span className="text-green-600">€{amount.toFixed(2)}</span>
+                  <span className="text-green-600">
+                    {formatCurrency(amount)}
+                  </span>
                 </div>
               )
             )}
@@ -59,13 +62,13 @@ async function ExpenseList() {
       </div>
 
       {/* Expenses List */}
-      <div className="space-y-4">
+      <ExpenseListRoot>
         {expenses.map((expense) => (
           <div key={expense.id} className="p-4 border rounded shadow-sm">
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-bold text-lg text-green-600">
-                  €{expense.amount}
+                  {formatCurrency(expense.amount)}
                 </p>
                 <p className="text-gray-700">{expense.description}</p>
                 {expense.category && (
@@ -80,7 +83,7 @@ async function ExpenseList() {
             </div>
           </div>
         ))}
-      </div>
+      </ExpenseListRoot>
     </div>
   );
 }
