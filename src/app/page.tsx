@@ -62,7 +62,7 @@ async function ExpenseList() {
       </div>
 
       {/* Expenses List */}
-      <ExpenseListRoot>
+      <div className="space-y-4">
         {expenses.map((expense) => (
           <div key={expense.id} className="p-4 border rounded shadow-sm">
             <div className="flex justify-between items-start">
@@ -83,7 +83,7 @@ async function ExpenseList() {
             </div>
           </div>
         ))}
-      </ExpenseListRoot>
+      </div>
     </div>
   );
 }
